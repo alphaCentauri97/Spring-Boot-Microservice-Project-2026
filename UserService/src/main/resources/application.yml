@@ -1,0 +1,28 @@
+server:
+  port: 8081
+
+spring:
+  application:
+        name : USER-SERVICE
+  datasource:
+    url: jdbc:mysql://localhost:3306/microservices
+    username: root
+    password: Alphacentauri@9889
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQLDialect
+#eureka:
+#  client:
+#    # 1. Tells the client where the Eureka Server is running.
+#    # The defaultZone is the required key for the primary Eureka URL.
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka # <-- **FIXED/REQUIRED:** Update this to your Eureka Server's host/port
+#
+#    # 2. These two properties are typically set to 'true' for a client:
+#    register-with-eureka: true # Default is true, but explicit is safer. Yes, register with the server.
+#    fetch-registry: true       # Default is true, but explicit is safer. Yes, fetch service list from the server.
+#  instance:
+#    prefer-ip-address: true
