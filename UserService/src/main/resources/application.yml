@@ -55,6 +55,10 @@ resilience4j:
         limit-refresh-period: 4s
         limit-for-period: 2
         timeout-duration: 2s
+jwt:
+  secretKey: VGhpc0lzQVNlY3VyZUtleUZvckpXVEhTMjU2QWxnb3JpdGhtMTIzNDU2
+  expiration: 86400000
+
 #  profiles:
 #    active: prod
 #eureka:

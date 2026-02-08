@@ -10,7 +10,7 @@ spring:
         - id: USER-SERVICE
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/users/**
+            - Path=/users/**, /auth/**, /admin/**
         - id: HOTEL-SERVICE
           uri: lb://HOTEL-SERVICE
           predicates:
@@ -28,3 +28,5 @@ eureka:
       defaultZone: http://localhost:8761/eureka
   instance:
     prefer-ip-address: true
+jwt:
+  secretKey: VGhpc0lzQVNlY3VyZUtleUZvckpXVEhTMjU2QWxnb3JpdGhtMTIzNDU2

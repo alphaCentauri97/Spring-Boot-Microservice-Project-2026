@@ -21,6 +21,10 @@ public class User {
     private String name;
     private String email;
     private String about;
+    private String password;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private Role role;
 
     @Transient
     private List<Rating> ratings = new ArrayList<>();

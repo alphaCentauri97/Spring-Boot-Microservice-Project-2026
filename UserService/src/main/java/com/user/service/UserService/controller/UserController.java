@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +25,9 @@ public class UserController {
 
     private Logger logger = (Logger) LoggerFactory.getLogger(UserController.class);
 
-    @PostMapping
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/create")
     public ResponseEntity<User> createUser(@RequestBody User user){
         User newUser = userService.saveUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
@@ -48,7 +51,7 @@ public class UserController {
         // logger.info("fallback is executed because service is down: ", ex.getMessage());
 
         User user = User.builder()
-                .email("d   ummy@gmail.com")
+                .email("dummy@gmail.com")
                 .name("Dummy")
                 .about("This user is created dummy because some service is down")
                 .id("12345")
