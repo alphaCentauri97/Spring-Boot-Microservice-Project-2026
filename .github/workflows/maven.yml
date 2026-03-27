@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Microservices CI/CD
 
 on:
   push:
@@ -8,34 +8,48 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        service:
+          - ApiGateway
+          - ConfigServer
+          - HotelService
+          - RatingService
+          - ServiceRegistry
+          - UserService
+
+    defaults:
+      run:
+        working-directory: ${{ matrix.service }}
+
     steps:
-      # 1. Checkout code
-      - name: Checkout
+      # 1. Checkout
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      # 2. Setup Java 17
+      # 2. Setup Java
       - name: Setup JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
 
-      # 3. Build using Maven
+      # 3. Build Maven Project
       - name: Build with Maven
         run: mvn clean install -DskipTests=false
 
-      # 4. Build Docker image
+      # 4. Build Docker Image
       - name: Build Docker Image
-        run: docker build -t user-service .
+        run: docker build -t ${{ matrix.service }} .
 
       # 5. Login to DockerHub
       - name: Docker Login
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      # 6. Tag image
+      # 6. Tag Image
       - name: Tag Image
-        run: docker tag user-service ${{ secrets.DOCKER_USERNAME }}/user-service:latest
+        run: docker tag ${{ matrix.service }} ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:latest
 
-      # 7. Push image
+      # 7. Push Image
       - name: Push Image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/user-service:latest
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service }}:latest
